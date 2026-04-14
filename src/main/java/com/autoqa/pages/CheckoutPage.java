@@ -1,40 +1,65 @@
 package com.autoqa.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CheckoutPage extends BasePage {
-    private By proceedBtn = By.xpath("//a[text()='Proceed To Checkout']");
-    private By messageBox = By.name("message");
-    private By placeOrder = By.xpath("//a[text()='Place Order']");
+
+    // Strict POM Locators
+    private By cartBtn = By.xpath("//a[contains(text(),'Cart')]");
+    private By proceedBtn = By.xpath("//a[contains(text(),'Proceed To Checkout')]");
+    private By commentBox = By.xpath("//textarea[@name='message']");
+    private By placeOrderBtn = By.xpath("//a[contains(text(),'Place Order')]");
     
-    // Payment Locators
-    private By nameOnCard = By.name("name_on_card");
-    private By cardNumber = By.name("card_number");
-    private By cvc = By.name("cvc");
-    private By expMonth = By.name("expiry_month");
-    private By expYear = By.name("expiry_year");
-    private By payBtn = By.id("submit");
-    private By successText = By.xpath("//b[text()='Order Placed!']");
+    // Payment specific locators (Using exact names/IDs for stability)
+    private By cardName = By.xpath("//input[@name='name_on_card']");
+    private By cardNum = By.xpath("//input[@name='card_number']");
+    private By cardCvc = By.xpath("//input[@name='cvc']");
+    private By expMonth = By.xpath("//input[@name='expiry_month']");
+    private By expYear = By.xpath("//input[@name='expiry_year']");
+    private By payBtn = By.xpath("//button[@id='submit']");
+    private By successMsg = By.xpath("//*[contains(text(),'Order Placed!')]");
 
     public CheckoutPage(WebDriver driver) {
         super(driver);
     }
 
     public void completePurchase(String name) {
-        clickElement(proceedBtn);
-        waitForElement(messageBox).sendKeys("Hackathon Order");
-        clickElement(placeOrder);
+        // 1. Go to Cart
+        jsClick(wait.until(ExpectedConditions.elementToBeClickable(cartBtn)));
+
+        // 2. Click Proceed to Checkout
+        jsClick(wait.until(ExpectedConditions.elementToBeClickable(proceedBtn)));
         
-        waitForElement(nameOnCard).sendKeys(name);
-        driver.findElement(cardNumber).sendKeys("424242424242");
-        driver.findElement(cvc).sendKeys("311");
+        // 3. Add comment and click Place Order
+        wait.until(ExpectedConditions.visibilityOfElementLocated(commentBox)).sendKeys("HCL Hackathon Order");
+        jsClick(wait.until(ExpectedConditions.elementToBeClickable(placeOrderBtn)));
+
+        // 4. Fill Payment Details (Ensuring visibility before typing)
+        wait.until(ExpectedConditions.visibilityOfElementLocated(cardName)).sendKeys(name);
+        driver.findElement(cardNum).sendKeys("4111111111111111");
+        driver.findElement(cardCvc).sendKeys("123");
         driver.findElement(expMonth).sendKeys("12");
-        driver.findElement(expYear).sendKeys("2030");
-        clickElement(payBtn);
+        driver.findElement(expYear).sendKeys("2028");
+
+        // 5. Final Pay and Confirm
+        WebElement finalButton = wait.until(ExpectedConditions.elementToBeClickable(payBtn));
+        jsClick(finalButton);
     }
 
     public boolean isOrderConfirmed() {
-        return waitForElement(successText).isDisplayed();
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(successMsg)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private void jsClick(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
 }
