@@ -44,11 +44,11 @@ public class AuthPage extends BasePage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(pwdField)).sendKeys(pwd);
         driver.findElement(fName).sendKeys(name);
         driver.findElement(lName).sendKeys("User");
-        driver.findElement(addr).sendKeys("123 HCL Street");
+        driver.findElement(addr).sendKeys("123 ABC Street");
         driver.findElement(state).sendKeys("TS");
         driver.findElement(city).sendKeys("Hyderabad");
-        driver.findElement(zip).sendKeys("500001");
-        driver.findElement(mobile).sendKeys("9876543210");
+        driver.findElement(zip).sendKeys("501010");
+        driver.findElement(mobile).sendKeys("9123456789");
         
         jsClick(wait.until(ExpectedConditions.elementToBeClickable(createAccBtn)));
         jsClick(wait.until(ExpectedConditions.elementToBeClickable(continueBtn)));

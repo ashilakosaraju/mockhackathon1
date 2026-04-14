@@ -30,7 +30,7 @@ public class AuthTest extends BaseTest {
         String pwd = prop.getProperty("password");
 
         auth.goToAuthPage();
-        auth.fillSignupForm("Dhathri", email, pwd);
+        auth.fillSignupForm("Ashila", email, pwd);
         auth.logout();
 
         auth.goToAuthPage();
@@ -38,7 +38,7 @@ public class AuthTest extends BaseTest {
 
         product.searchAndAdd("Blue Top");
 
-        checkout.completePurchase("Dhathri Putty");
+        checkout.completePurchase("Kosaraju Ashila");
         Assert.assertTrue(checkout.isOrderConfirmed(), "Order confirmation was not displayed!");
     }
 

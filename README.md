@@ -53,4 +53,4 @@ This project was developed in an intensive 24-hour cycle to demonstrate agile de
 5. After execution, open `reports/ExtentReport.html` to view the results.
 
 ---
-*Developed by Dhathri Putty for the HCL Hackathon.*
+*Developed by Kosaraju Ashila Chowdary for the HCL Hackathon.*
