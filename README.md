@@ -46,7 +46,7 @@ This project was developed in an intensive 24-hour cycle to demonstrate agile de
 ---
 
 ## 🏃 How to Run the Project
-1. Clone the repository: `git clone https://github.com/dhathri25/HCl-AutoQA-ECommerce-Website-Project1.git`
+1. Clone the repository: `git clone https://github.com/ashilakosaraju/mockhackathon1.git`
 2. Ensure Maven is installed and configured.
 3. Open the project in your IDE (Eclipse/IntelliJ).
 4. Right-click on `testng.xml` and select **Run As > TestNG Suite**.
